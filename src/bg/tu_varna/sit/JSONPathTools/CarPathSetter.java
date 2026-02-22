@@ -72,6 +72,7 @@ public class CarPathSetter implements JSONPathSetter{
                                 default:
                                     throw new CommandException("Invalid path! Unable to find the element");
                             }
+                            garage.setCar(path[2], car);
                         }
                         else
                             throw new CommandException("Invalid path! Path doesn't exist");

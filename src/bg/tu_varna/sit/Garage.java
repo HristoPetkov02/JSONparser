@@ -1,27 +1,33 @@
 package bg.tu_varna.sit;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Garage {
     private static Garage instance;
     private Map <String,Car> carMap;
+    private final List<GarageListener> listeners = new ArrayList<>();
 
     public Garage(){
         this.carMap=new LinkedHashMap<>();
         instance=this;
+        this.addListener(new ConsoleGarageListener());
     }
 
     public void addCar(String key,Car value){
-        carMap.put(key,value);
+        notifyListeners(new GarageEvent(GarageEvent.Type.ADDED, key));
     }
 
     public void setCar(String key,Car value){
-        carMap.replace(key,value);
+        carMap.replace(key, value);
+        notifyListeners(new GarageEvent(GarageEvent.Type.UPDATED, key));
     }
 
-    public void removeCar(String key,Car value){
-        carMap.remove(key,value);
+    public void removeCar(String key){
+        carMap.remove(key);
+        notifyListeners(new GarageEvent(GarageEvent.Type.REMOVED, key));
     }
 
     public void clearGarage(){
@@ -79,6 +85,17 @@ public class Garage {
         }
         sb.append("\n\t}\n}");
         return sb.toString();
+    }
+
+
+    // listener management
+    public void addListener(GarageListener l) { listeners.add(l); }
+    public void removeListener(GarageListener l) { listeners.remove(l); }
+
+    private void notifyListeners(GarageEvent event) {
+        for (GarageListener l : new java.util.ArrayList<>(listeners)) {
+            l.onChange(event);
+        }
     }
 }
 

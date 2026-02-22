@@ -14,7 +14,7 @@ public class CarPathDeleter implements JSONPathDeleter{
         switch (path.length){
             case 3:
                 if (garage.getCarMap().containsKey(path[2])){
-                    garage.getCarMap().remove(path[2]);
+                    garage.removeCar(path[2]);
                 }
                 else if (!garage.getCarMap().containsKey(path[2]))
                     throw new CommandException("Invalid path! Unable to find the element");
@@ -35,36 +35,43 @@ public class CarPathDeleter implements JSONPathDeleter{
                                 car.setBrand(null);
                                 order.remove(path[3]);
                                 car.setOrder(order);
+                                garage.setCar(path[2], car);
                                 break;
                             case "model":
                                 car.setModel(null);
                                 order.remove(path[3]);
                                 car.setOrder(order);
+                                garage.setCar(path[2], car);
                                 break;
                             case "year":
                                 car.setYear(0);
                                 order.remove(path[3]);
                                 car.setOrder(order);
+                                garage.setCar(path[2], car);
                                 break;
                             case "isElectric":
                                 car.setElectric(false);
                                 order.remove(path[3]);
                                 car.setOrder(order);
+                                garage.setCar(path[2], car);
                                 break;
                             case "features":
                                 car.setFeatures(null);
                                 order.remove(path[3]);
                                 car.setOrder(order);
+                                garage.setCar(path[2], car);
                                 break;
                             case "dimensions":
                                 car.setDimensions(null);
                                 order.remove(path[3]);
                                 car.setOrder(order);
+                                garage.setCar(path[2], car);
                                 break;
                             case "owner":
                                 car.setOwner(null);
                                 order.remove(path[3]);
                                 car.setOrder(order);
+                                garage.setCar(path[2], car);
                                 break;
                             default:
                                 throw new CommandException("Invalid path! Unable to find the element");

@@ -37,7 +37,8 @@ public class DimensionsPathCreator implements JSONPathCreator {
                     default:
                         throw new CommandException("Invalid path! Path should fallow the garage structure");
                 }
-
+                Garage garage = Garage.getInstance();
+                garage.setCar(path[2], garage.getCarMap().get(path[2]));
             }
             else
                 throw new CommandException("Invalid path! Path already exist");

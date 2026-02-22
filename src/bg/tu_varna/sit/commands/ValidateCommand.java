@@ -1,6 +1,7 @@
 package bg.tu_varna.sit.commands;
 
 
+import bg.tu_varna.sit.Garage;
 import bg.tu_varna.sit.Parser.JSONException;
 import bg.tu_varna.sit.Parser.JSONValidator;
 import bg.tu_varna.sit.Parser.JSONtoGarage;
@@ -12,6 +13,8 @@ public class ValidateCommand implements Command {
 
     @Override
     public void execute(String[] args) throws CommandException {
+
+
         if (args.length != 1) {
             throw new CommandException("Unknown command");
         } else if (!OpenCommand.isItOpen()) {
@@ -22,6 +25,8 @@ public class ValidateCommand implements Command {
                 JSONValidator.validateObject(JSONHandler.getJsonString());
                 isValid=JSONValidator.isValid();
                 if (isValid){
+                    Garage garage=new Garage();
+                    garage.clearGarage(); // clear before re-populating
                     JSONtoGarage jsoNtoGarage=new JSONtoGarage();
                     jsoNtoGarage.parseJSON(JSONHandler.getJsonString());
                     System.out.println("Valid JSON file");
