@@ -24,17 +24,17 @@ public class DimensionsPathDeleter implements JSONPathDeleter{
 
                     switch (path[4]) {
                         case "length":
-                            dimensions.setLength(0);
+                            dimensions.setLength(0d);
                             order.remove(path[4]);
                             dimensions.setOrder(order);
                             break;
                         case "height":
-                            dimensions.setHeight(0);
+                            dimensions.setHeight(0d);
                             order.remove(path[4]);
                             dimensions.setOrder(order);
                             break;
                         case "width":
-                            dimensions.setWidth(0);
+                            dimensions.setWidth(0d);
                             order.remove(path[4]);
                             dimensions.setOrder(order);
                             break;

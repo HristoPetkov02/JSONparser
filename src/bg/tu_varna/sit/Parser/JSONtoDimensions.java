@@ -24,18 +24,28 @@ public class JSONtoDimensions extends JSONParser implements  JSONParserInterface
         double width = 0;
         double height = 0;
 
+        Dimensions.Builder builder = new Dimensions.Builder();
+
 
         if (json.containsKey("length"))
-            length = ((Number) json.get("length")).doubleValue();
+        {
+                length = ((Number) json.get("length")).doubleValue();
+                builder.length(length);
+        }
         if (json.containsKey("width"))
-            width = ((Number) json.get("width")).doubleValue();
-        if (json.containsKey("height"))
-            height = ((Number) json.get("height")).doubleValue();
+        {
+                width = ((Number) json.get("width")).doubleValue();
+                builder.width(width);
+        }
+        if (json.containsKey("height")){
+                height = ((Number) json.get("height")).doubleValue();
+                builder.height(height);
+        }
 
         if (length<0 || height<0 || width<0)
             throw new IllegalArgumentException("Negative dimensions not supported");
 
-        Dimensions dimensions = new Dimensions(length, width, height);
+        Dimensions dimensions = builder.build();
 
         dimensions.setOrder(json);
         return dimensions;

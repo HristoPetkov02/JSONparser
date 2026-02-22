@@ -8,14 +8,14 @@ import java.util.Map;
 public class Car {
     private String brand;
     private String model;
-    private int year;
-    private boolean isElectric;
+    private Integer year;
+    private Boolean isElectric;
     private List<String> features;
     private Dimensions dimensions;
     private Object owner;
-    private Map<String,Object> order;
+    private Map<String, Object> order;
 
-    public Car(String brand, String model, int year, boolean isElectric, List<String> features, Dimensions dimensions, Object owner) {
+    private Car(String brand, String model, Integer year, Boolean isElectric, List<String> features, Dimensions dimensions, Object owner) {
         this.brand = brand;
         this.model = model;
         this.year = year;
@@ -23,7 +23,56 @@ public class Car {
         this.features = features;
         this.dimensions = dimensions;
         this.owner = owner;
-        order=new LinkedHashMap<>();
+        order = new LinkedHashMap<>();
+    }
+
+    public static class Builder {
+        private String brand;
+        private String model;
+        private Integer year;
+        private Boolean isElectric;
+        private List<String> features;
+        private Dimensions dimensions;
+        private Object owner;
+
+        public Builder brand(String brand) {
+            this.brand = brand;
+            return this;
+        }
+
+        public Builder model(String model) {
+            this.model = model;
+            return this;
+        }
+
+        public Builder year(Integer year) {
+            this.year = year;
+            return this;
+        }
+
+        public Builder electric(Boolean electric) {
+            isElectric = electric;
+            return this;
+        }
+
+        public Builder feature(List<String> features) {
+            this.features = features;
+            return this;
+        }
+
+        public Builder dimensions(Dimensions dimensions) {
+            this.dimensions = dimensions;
+            return this;
+        }
+
+        public Builder owner(Object owner) {
+            this.owner = owner;
+            return this;
+        }
+
+        public Car build() {
+            return new Car(brand, model, year, isElectric, features, dimensions, owner);
+        }
     }
 
     public void setOrder(Map<String, Object> order) {
@@ -42,11 +91,11 @@ public class Car {
         return model;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public boolean isElectric() {
+    public Boolean isElectric() {
         return isElectric;
     }
 
@@ -54,13 +103,14 @@ public class Car {
 
         return features;
     }
-    public String featuresToJSON(){
-        StringBuilder sb=new StringBuilder();
-        int i=0;
+
+    public String featuresToJSON() {
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
         sb.append("[");
-        for (String s: features) {
+        for (String s : features) {
             sb.append("\"").append(s).append("\"");
-            if (i!=features.size()-1)
+            if (i != features.size() - 1)
                 sb.append(",");
 
         }
@@ -80,80 +130,82 @@ public class Car {
     public void setBrand(String brand) {
         this.brand = brand;
         if (order.containsKey("brand"))
-            order.replace("brand",brand);
+            order.replace("brand", brand);
         else
-            order.put("brand",brand);
+            order.put("brand", brand);
     }
 
     public void setModel(String model) {
         this.model = model;
         if (order.containsKey("model"))
-            order.replace("model",model);
+            order.replace("model", model);
         else
-            order.put("model",model);
+            order.put("model", model);
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
         if (order.containsKey("year"))
-            order.replace("year",year);
+            order.replace("year", year);
         else
-            order.put("year",year);
+            order.put("year", year);
     }
 
-    public void setElectric(boolean electric) {
+    public void setElectric(Boolean electric) {
         isElectric = electric;
         if (order.containsKey("isElectric"))
-            order.replace("isElectric",electric);
+            order.replace("isElectric", electric);
         else
-            order.put("isElectric",electric);
+            order.put("isElectric", electric);
     }
 
     public void setFeatures(List<String> features) {
         this.features = features;
         if (order.containsKey("features"))
-            order.replace("features",features);
+            order.replace("features", features);
         else
-            order.put("features",features);
+            order.put("features", features);
     }
 
     public void setDimensions(Dimensions dimensions) {
         this.dimensions = dimensions;
         if (order.containsKey("dimensions"))
-            order.replace("dimensions",dimensions);
+            order.replace("dimensions", dimensions);
         else
-            order.put("dimensions",dimensions);
+            order.put("dimensions", dimensions);
     }
 
     public void setOwner(Object owner) {
         this.owner = owner;
         if (order.containsKey("owner"))
-            order.replace("owner",owner);
+            order.replace("owner", owner);
         else
-            order.put("owner",owner);
+            order.put("owner", owner);
     }
 
 
     @Override
     public String toString() {
-        int i=1;
-        StringBuilder sb=new StringBuilder();
+        int i = 1;
+        StringBuilder sb = new StringBuilder();
         sb.append("\nBrand: ");
-        if (brand==null || brand.isEmpty())
+        if (brand == null || brand.isEmpty())
             sb.append("Not specified");
         else
             sb.append(brand);
         sb.append("\nModel: ");
-        if (model==null || model.isEmpty())
+        if (model == null || model.isEmpty())
             sb.append("Not specified");
         else
             sb.append(model);
         sb.append("\nYear: ");
-        if (year==0)
+        if (model == null || year == 0)
             sb.append("Not specified");
         else
             sb.append(year);
-        if (isElectric)
+        if (isElectric == null)
+            sb.append("\nNot specified");
+        else if (isElectric)
             sb.append("\nElectric");
         else
             sb.append("\nNot electric");
@@ -163,32 +215,29 @@ public class Car {
         return sb.toString();
     }
 
-    public String toJSON(){
-        int i=1;
+    public String toJSON() {
+        int i = 1;
 
-        StringBuilder sb=new StringBuilder();
-        for (Map.Entry<String,Object> o: order.entrySet()) {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, Object> o : order.entrySet()) {
             sb.append("\n\t\t\"").append(o.getKey()).append("\": ");
-            if (o.getValue() instanceof String && !o.getValue().equals("null")){
+            if (o.getValue() instanceof String && !o.getValue().equals("null")) {
                 sb.append("\"").append(o.getValue()).append("\"");
-            }
-            else if (o.getValue() instanceof List){
+            } else if (o.getValue() instanceof List) {
                 sb.append("[");
-                for (String list:features) {
+                for (String list : features) {
                     sb.append("\"").append(list).append("\"");
-                    if (features.indexOf(list)!=features.size()-1){
+                    if (features.indexOf(list) != features.size() - 1) {
                         sb.append(",");
                     }
                 }
                 sb.append("]");
-            }
-            else if (o.getValue() instanceof Dimensions){
+            } else if (o.getValue() instanceof Dimensions) {
                 sb.append(((Dimensions) o.getValue()).toJSON());
-            }
-            else
+            } else
                 sb.append((o.getValue()));
 
-            if (i!= order.size()) {
+            if (i != order.size()) {
                 sb.append(",");
             }
             i++;

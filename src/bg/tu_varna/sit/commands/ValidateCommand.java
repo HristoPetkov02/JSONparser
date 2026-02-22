@@ -24,6 +24,7 @@ public class ValidateCommand implements Command {
                 if (isValid){
                     JSONtoGarage jsoNtoGarage=new JSONtoGarage();
                     jsoNtoGarage.parseJSON(JSONHandler.getJsonString());
+                    System.out.println("Valid JSON file");
                 }
             } catch (JSONException | IllegalArgumentException e) {
                 System.out.println(e);

@@ -27,14 +27,24 @@ public class JSONtoCar extends JSONParser implements  JSONParserInterface{
         int year =0;
         boolean isElectric=false;
 
-        if (json.containsKey("brand"))
+        Car.Builder builder = new Car.Builder();
+
+        if (json.containsKey("brand")){
             brand = (String) json.get("brand");
-        if (json.containsKey("model"))
+            builder.brand(brand);
+        }
+        if (json.containsKey("model")){
             model = (String) json.get("model");
-        if (json.containsKey("year"))
+            builder.model(model);
+        }
+        if (json.containsKey("year")){
             year = ((Number) json.get("year")).intValue();
-        if (json.containsKey("isElectric"))
+            builder.year(year);
+        }
+        if (json.containsKey("isElectric")){
             isElectric = (Boolean) json.get("isElectric");
+            builder.electric(isElectric);
+        }
 
         List<Object> featuresArray;
         List<String> features = new ArrayList<>();
@@ -43,6 +53,7 @@ public class JSONtoCar extends JSONParser implements  JSONParserInterface{
             for (Object feature : featuresArray) {
                 features.add((String) feature);
             }
+                builder.feature(features);
         }
 
         JSONtoDimensions jsoNtoDimensions=new JSONtoDimensions();
@@ -51,16 +62,20 @@ public class JSONtoCar extends JSONParser implements  JSONParserInterface{
             jsoNtoDimensions.parseJSON((Map<String, Object>) json.get("dimensions"));
             dimensions=jsoNtoDimensions.toDimensions();
             json.replace("dimensions",dimensions);
+
         }
         else
             dimensions=new Dimensions();
+        builder.dimensions(dimensions);
 
         if (year<0)
             throw new IllegalArgumentException("Year should be a positive number");
 
 
         Object owner = json.get("owner");
-        Car car=new Car(brand, model, year, isElectric, features, dimensions, owner);
+        builder.owner(owner);
+
+        Car car = builder.build();
         car.setOrder(json);
         return car;
     }

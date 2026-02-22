@@ -4,35 +4,61 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Dimensions {
-    private double length;
-    private double width;
-    private double height;
-    private Map<String,Object> order;
+    private Double length;
+    private Double width;
+    private Double height;
+    private Map<String, Object> order;
 
 
-    public Dimensions(double length, double width, double height) {
+    private Dimensions(Double length, Double width, Double height) {
         this.length = length;
         this.width = width;
         this.height = height;
-        order=new LinkedHashMap<>();
+        order = new LinkedHashMap<>();
     }
-    public Dimensions(){
-        order=new LinkedHashMap<>();
+
+    public static class Builder {
+        private Double length;
+        private Double width;
+        private Double height;
+
+        public Builder length(Double length) {
+            this.length = length;
+            return this;
+        }
+
+        public Builder width(Double width) {
+            this.width = width;
+            return this;
+        }
+
+        public Builder height(Double height) {
+            this.height = height;
+            return this;
+        }
+
+        public Dimensions build() {
+            return new Dimensions(length, width, height);
+        }
+    }
+
+    public Dimensions() {
+        order = new LinkedHashMap<>();
     }
 
     public void setOrder(Map<String, Object> order) {
         this.order = order;
     }
 
-    public double getLength() {
+    public Double getLength() {
         return length;
     }
 
-    public double getWidth() {
+    public Double getWidth() {
         return width;
     }
 
-    public double getHeight() {
+    public Double getHeight() {
         return height;
     }
 
@@ -41,45 +67,45 @@ public class Dimensions {
     }
 
 
-    public void setLength(double length) {
+    public void setLength(Double length) {
         this.length = length;
         if (order.containsKey("length"))
-            order.replace("length",length);
+            order.replace("length", length);
         else
-            order.put("length",length);
+            order.put("length", length);
     }
 
-    public void setWidth(double width) {
+    public void setWidth(Double width) {
         this.width = width;
         if (order.containsKey("width"))
-            order.replace("width",width);
+            order.replace("width", width);
         else
-            order.put("width",width);
+            order.put("width", width);
     }
 
-    public void setHeight(double height) {
+    public void setHeight(Double height) {
         this.height = height;
         if (order.containsKey("height"))
-            order.replace("height",height);
+            order.replace("height", height);
         else
-            order.put("height",height);
+            order.put("height", height);
     }
 
     @Override
     public String toString() {
-        StringBuilder sb=new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append("{Length: ");
-        if (length==0)
+        if (length == null)
             sb.append("Not specified ");
         else
             sb.append(length);
         sb.append("\tWidth: ");
-        if (width==0)
+        if (width == null)
             sb.append("Not specified ");
         else
             sb.append(width);
         sb.append("\tHeight: ");
-        if (height==0)
+        if (height == null)
             sb.append("Not specified ");
         else
             sb.append(height);
@@ -87,13 +113,13 @@ public class Dimensions {
         return sb.toString();
     }
 
-    public String toJSON(){
-        int i=1;
-        StringBuilder sb=new StringBuilder();
+    public String toJSON() {
+        int i = 1;
+        StringBuilder sb = new StringBuilder();
         sb.append("{");
-        for (Map.Entry<String,Object> o: order.entrySet()) {
+        for (Map.Entry<String, Object> o : order.entrySet()) {
             sb.append("\n\t\t\t\"").append(o.getKey()).append("\": ").append(o.getValue());
-            if (i!= order.size()) {
+            if (i != order.size()) {
                 sb.append(",");
             }
             i++;
