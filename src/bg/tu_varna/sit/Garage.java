@@ -17,7 +17,7 @@ public class Garage {
     }
 
     public void addCar(String key,Car value){
-        carMap.put(key, value);
+        carMap.put(key,value);
         notifyListeners(new GarageEvent(GarageEvent.Type.ADDED, key));
     }
 
